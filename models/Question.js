@@ -7,7 +7,23 @@ const answerSchema = new mongoose.Schema({
 
 const questionSchema = new mongoose.Schema({
   text: String,
-  answers: [answerSchema]
+  answers: [answerSchema],
+  topicId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Topic'
+  }
 });
 
+// models/Question.js (add this after the existing schemas)
+questionSchema.virtual('topic', {
+  ref: 'Topic',
+  localField: 'topicId',
+  foreignField: '_id',
+  justOne: true
+});
+
+
+
+
 module.exports = mongoose.model('Question', questionSchema);
+

@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const app = express();
 const Question = require('./models/Question');
+const Topic = require('./models/Topic');
 app.use(cors());
 app.use(express.json());
 
@@ -46,8 +47,30 @@ app.post('/questions', async (req, res) => {
 });
 
 app.get('/questions', async (req, res) => {
-  const questions = await Question.find();
+  // Initialize the filter to only fetch questions with a valid topicId
+  const filters = { topicId: { $exists: true, $ne: null } };
+
+  // If a specific topicId is provided, update the filter
+  
+  if (req.query.topicId) {
+    filters.topicId = req.query.topicId;
+  }
+
+  const questions = await Question.find(filters);
   res.send(questions);
+});
+
+// Get all topics
+app.get('/topics', async (req, res) => {
+  const topics = await Topic.find();
+  res.send(topics);
+});
+
+// Add a new topic
+app.post('/topics', async (req, res) => {
+  const topic = new Topic(req.body);
+  await topic.save();
+  res.send(topic);
 });
 
 app.listen(3000, () => {

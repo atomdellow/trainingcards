@@ -5,7 +5,12 @@
       <p>{{ question.text }}</p>
       <ul>
         <li v-for="(answer, aIndex) in question.answers" :key="aIndex">
-          <input type="radio" :name="'question-' + index" :value="answer.isCorrect" v-model="userAnswers[index]">
+          <input
+            type="radio"
+            :name="'question-' + index"
+            :value="answer.isCorrect"
+            v-model="userAnswers[index]"
+          />
           {{ answer.text }}
         </li>
       </ul>
@@ -17,10 +22,10 @@
 <script>
 export default {
   name: "TrainingQuiz",
-  props: ['questions'],
+  props: ["questions"],
   data() {
     return {
-      userAnswers: []
+      userAnswers: [],
     };
   },
   watch: {
@@ -28,14 +33,17 @@ export default {
       immediate: true,
       handler() {
         this.userAnswers = new Array(this.questions.length).fill(null);
-      }
-    }
+      },
+    },
   },
   methods: {
     submitQuiz() {
-      const correctAnswers = this.userAnswers.filter(answer => answer).length;
-      alert(`You got ${correctAnswers} out of ${this.questions.length} correct!`);
-    }
-  }
+      const correctAnswers = this.userAnswers.filter((answer) => answer).length;
+      alert(
+        `You got ${correctAnswers} out of ${this.questions.length} correct!`
+      );
+      this.$emit("quizCompleted"); // Emit the event
+    },
+  },
 };
 </script>
