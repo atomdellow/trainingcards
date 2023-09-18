@@ -2,19 +2,32 @@
 <template>
   <div>
     <h2>Add a Question</h2>
-    <select v-model="newQuestion.topicId">
-      <option v-for="topic in topics" :key="topic._id" :value="topic._id">
-        {{ topic.name }}
-      </option>
-    </select>
-    <input v-model="newQuestion.text" placeholder="Question text" />
-    <div v-for="(answer, index) in newQuestion.answers" :key="index">
+    <div>
+      <select v-model="newQuestion.topicId">
+        <option v-for="topic in topics" :key="topic._id" :value="topic._id">
+          {{ topic.name }}
+        </option>
+      </select>
+      <p>Filter</p>
+    </div>
+
+    <div class="card">
+      <input v-model="newQuestion.text" placeholder="Question text" />
+    </div>
+
+    <div
+      class="card"
+      v-for="(answer, index) in newQuestion.answers"
+      :key="index"
+    >
       <input v-model="answer.text" placeholder="Answer text" />
       <input type="checkbox" v-model="answer.isCorrect" /> Correct
       <button @click="removeAnswer(index)">Remove Answer</button>
     </div>
-    <button @click="addAnswer">Add Answer</button>
-    <button @click="submitQuestion">Submit Question</button>
+    <div class="card">
+      <button @click="addAnswer">Add Answer</button>
+      <button @click="submitQuestion">Submit Question</button>
+    </div>
   </div>
 </template>
 
@@ -33,14 +46,14 @@ export default {
       topics: [],
     };
   },
-    created() {
-    this.fetchTopics();  // Call the method when the component is created
+  created() {
+    this.fetchTopics(); // Call the method when the component is created
   },
   methods: {
     async fetchTopics() {
       try {
-        const response = await axios.get('http://localhost:3000/topics');
-        this.topics = response.data;  // Populate the topics array with the fetched data
+        const response = await axios.get("http://localhost:3000/topics");
+        this.topics = response.data; // Populate the topics array with the fetched data
       } catch (error) {
         console.error("Failed to fetch topics:", error);
       }

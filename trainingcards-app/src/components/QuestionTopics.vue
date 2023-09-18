@@ -1,6 +1,6 @@
 <!-- src/components/Topics.vue -->
 <template>
-  <div>
+  <div class="card">
     <h2>Topics</h2>
     <input v-model="newTopic" placeholder="New Topic">
     <button @click="addTopic">Add Topic</button>

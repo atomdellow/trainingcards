@@ -1,24 +1,46 @@
 <!-- src/components/Quiz.vue -->
 <template>
-  <div>
+  <div class="questions">
     <div v-for="(question, index) in questions" :key="index">
-      <p>{{ question.text }}</p>
-      <ul>
-        <li v-for="(answer, aIndex) in question.answers" :key="aIndex">
-          <input
-            type="radio"
-            :name="'question-' + index"
-            :value="answer.isCorrect"
-            v-model="userAnswers[index]"
-          />
-          {{ answer.text }}
-        </li>
-      </ul>
+      <div class="questionscard">
+        <p>{{ question.text }}</p>
+        <ul>
+          <li v-for="(answer, aIndex) in question.answers" :key="aIndex">
+            <input
+              type="radio"
+              :name="'question-' + index"
+              :value="answer.isCorrect"
+              v-model="userAnswers[index]"
+            />
+            {{ answer.text }}
+          </li>
+        </ul>
+      </div>
     </div>
-    <button @click="submitQuiz">Submit</button>
+    <div class="card">
+      <button @click="submitQuiz">Submit</button>
+    </div>
   </div>
 </template>
-
+<style>
+.questions {
+  /* max-width: 800px; /* or whatever maximum width you prefer */
+  width: 100%;
+  background-color: white;
+  border-radius: 10px; /* Rounded edges */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  margin: 20px;
+  padding: 20px;
+}
+.questionscard {
+  background-color: white;
+  border: 1px solid #ccc; /* Grey border */
+  border-radius: 10px; /* Rounded edges */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  margin: 20px;
+  padding: 20px;
+}
+</style>
 <script>
 export default {
   name: "TrainingQuiz",
